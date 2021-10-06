@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamarinDemoApp.Models;
 using XamarinDemoApp.ViewModels;
 
 namespace XamarinDemoApp.Views
@@ -22,7 +23,20 @@ namespace XamarinDemoApp.Views
 
         }
 
-        
-        
+
+        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var coffee = ((ListView) sender).SelectedItem as Coffee;
+        }
+
+        private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+           ((ListView)sender).SelectedItem = null;
+        }
+
+        private void MenuItem_OnClicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

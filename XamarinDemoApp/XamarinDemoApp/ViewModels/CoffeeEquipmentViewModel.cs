@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
@@ -18,12 +21,18 @@ namespace XamarinDemoApp.ViewModels
             Title = "Coffee Equipment";
             Coffee = new ObservableRangeCollection<Coffee>();
             CoffeeGroups = new ObservableRangeCollection<Grouping<string, Coffee>>();
-            string image = "https://cdn1.vectorstock.com/i/thumbs/68/10/coffee-cup-icon-vector-12056810.jpg";
-            Coffee.Add(new Coffee { Roaster = "D1", Name = "Jamaican Blue", Image = image });
-            Coffee.Add(new Coffee { Roaster = "D2", Name = "Midnight Steel", Image = image });
-            Coffee.Add(new Coffee { Roaster = "D3", Name = "Shade", Image = image });
+            string image = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png";
+            Coffee.Add(new Coffee { Roaster = "Morning Hello", Name = "Jamaican Blue", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Morning Hello", Name = "Midnight Steel", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Morning Hello", Name = "Shade", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Tetley", Name = "Sanctity", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Starbucks", Name = "Bulletproof", Image = image });
+            Coffee.Add(new Coffee { Roaster = "Starbucks", Name = "Monk", Image = image });
             
-
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Morning Hello", Coffee.Where(c => c.Roaster == "Morning Hello")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Tetley", Coffee.Where(c => c.Roaster == "Tetley")));
+            CoffeeGroups.Add(new Grouping<string, Coffee>("Starbucks", Coffee.Where(c => c.Roaster == "Starbucks")));
+            var _count = CoffeeGroups.Count;
         }
 
 

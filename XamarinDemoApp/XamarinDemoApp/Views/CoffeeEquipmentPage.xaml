@@ -12,13 +12,25 @@
         <viewModels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
     <ListView
+        ItemSelected="ListView_OnItemSelected"
+        ItemTapped="ListView_OnItemTapped"
+        CachingStrategy="RecycleElement"
         BackgroundColor="Transparent"
+        GroupDisplayBinding="{Binding Key}"
         HasUnevenRows="True"
-        ItemsSource="{Binding Coffee}"
+        IsGroupingEnabled="True"
+        IsPullToRefreshEnabled="True"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        ItemsSource="{Binding CoffeeGroups}"
+        RefreshCommand="{Binding RefreshCommand}"
+        RefreshControlColor="Red"
         SeparatorVisibility="None">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="model:Coffee">
                 <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Favorite" Clicked="MenuItem_OnClicked"/>
+                    </ViewCell.ContextActions>
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
                             <StackLayout Orientation="Horizontal">
@@ -43,5 +55,18 @@
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
+        <ListView.Header>
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    HorizontalOptions="Center"
+                    Text="Coffee of the world"
+                    TextColor="Olive" />
+            </StackLayout>
+        </ListView.Header>
+        <ListView.Footer>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                <Button Text="Load More..." />
+            </StackLayout>
+        </ListView.Footer>
     </ListView>
 </ContentPage>
