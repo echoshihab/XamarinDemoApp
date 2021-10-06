@@ -3,46 +3,35 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using XamarinDemoApp.Models;
 using Command = Xamarin.Forms.Command;
 
 namespace XamarinDemoApp.ViewModels
 {
     public class CoffeeEquipmentViewModel : ViewModelBase
     {
-        public ObservableRangeCollection<string> Coffee;
+        public ObservableRangeCollection<Coffee> Coffee { get; set; }
+        public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; }
+        public AsyncCommand RefreshCommand { get; }
         public CoffeeEquipmentViewModel()
         {
-            IncreaseCount = new Command(OnIncrease);
             Title = "Coffee Equipment";
-            CallServerCommand = new AsyncCommand(CallServer);
-            Coffee = new ObservableRangeCollection<string>();
-        }
-
-        public ICommand CallServerCommand { get; }
-        public ICommand IncreaseCount { get; }
-        int count = 0;
-        string countDisplay = "Click Me";
-        public string CountDisplay
-        {
-            get => countDisplay;
-            set => SetProperty(ref countDisplay, value);
+            Coffee = new ObservableRangeCollection<Coffee>();
+            CoffeeGroups = new ObservableRangeCollection<Grouping<string, Coffee>>();
+            string image = "https://cdn1.vectorstock.com/i/thumbs/68/10/coffee-cup-icon-vector-12056810.jpg";
+            Coffee.Add(new Coffee { Roaster = "D1", Name = "Jamaican Blue", Image = image });
+            Coffee.Add(new Coffee { Roaster = "D2", Name = "Midnight Steel", Image = image });
+            Coffee.Add(new Coffee { Roaster = "D3", Name = "Shade", Image = image });
+            
 
         }
 
-        async Task CallServer()
-        {
-            Coffee.AddRange(new List<string>
-            {
-                 "Jamaican Blue",
-                 "Midnight Steel",
-                 "Shade"
-            });
-        }
 
-        void OnIncrease()
+        async Task Refresh()
         {
-            count++;
-            CountDisplay = $"You clicked {count} time(s)";
+            IsBusy = true;
+            await Task.Delay(2000);
+            IsBusy = false;
         }
     }
 }

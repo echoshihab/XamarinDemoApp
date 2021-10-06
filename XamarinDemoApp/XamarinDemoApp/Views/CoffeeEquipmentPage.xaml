@@ -3,26 +3,45 @@
     x:Class="XamarinDemoApp.Views.CoffeeEquipmentPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:XamarinDemoApp.Models;assembly=XamarinDemoApp"
+    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewModels="clr-namespace:XamarinDemoApp.ViewModels;assembly=XamarinDemoApp"
     x:DataType="viewModels:CoffeeEquipmentViewModel"
     BackgroundColor="white">
     <ContentPage.BindingContext>
-        <viewModels:CoffeeEquipmentViewModel/>
+        <viewModels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
-    <ContentPage.Content>
-        <Grid RowDefinitions="*,Auto,Auto, *">
-            <Label
-                x:Name="LabelCount"
-                Grid.Row="1"
-                BackgroundColor="Orange"
-                FontSize="Large"
-                HorizontalOptions="Center"
-                Text="{Binding CountDisplay}"
-                VerticalOptions="CenterAndExpand" />
-            <Button
-                Grid.Row="2"
-                Command="{Binding IncreaseCount}"
-                Text="Click Me" />
-        </Grid>
-    </ContentPage.Content>
+    <ListView
+        BackgroundColor="Transparent"
+        HasUnevenRows="True"
+        ItemsSource="{Binding Coffee}"
+        SeparatorVisibility="None">
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:Coffee">
+                <ViewCell>
+                    <Grid Padding="10">
+                        <Frame CornerRadius="20" HasShadow="True">
+                            <StackLayout Orientation="Horizontal">
+                                <Image
+                                    HeightRequest="66"
+                                    Source="{Binding Image}"
+                                    WidthRequest="66" />
+                                <StackLayout>
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Roaster}"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>
