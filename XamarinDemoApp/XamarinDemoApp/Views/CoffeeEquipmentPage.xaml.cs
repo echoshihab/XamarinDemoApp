@@ -24,9 +24,13 @@ namespace XamarinDemoApp.Views
         }
 
 
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var coffee = ((ListView) sender).SelectedItem as Coffee;
+            if (coffee == null)
+                return;
+
+            await DisplayAlert("Coffee Selected", coffee.Name, "Ok");
         }
 
         private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -34,9 +38,15 @@ namespace XamarinDemoApp.Views
            ((ListView)sender).SelectedItem = null;
         }
 
-        private void MenuItem_OnClicked(object sender, EventArgs e)
+        private async void MenuItem_OnClicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var coffee = ((MenuItem) sender).BindingContext as Coffee;
+            
+            if (coffee == null)
+                return;
+
+            await DisplayAlert("Coffee Favorited", coffee.Name, "Ok");
+
         }
     }
 }
