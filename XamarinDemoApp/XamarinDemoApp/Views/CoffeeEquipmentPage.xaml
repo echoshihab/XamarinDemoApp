@@ -6,15 +6,15 @@
     xmlns:model="clr-namespace:XamarinDemoApp.Models;assembly=XamarinDemoApp"
     xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewModels="clr-namespace:XamarinDemoApp.ViewModels;assembly=XamarinDemoApp"
+    x:Name="CoffeePage"
     x:DataType="viewModels:CoffeeEquipmentViewModel"
     BackgroundColor="white">
     <ContentPage.BindingContext>
         <viewModels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
     <ListView
-        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
-        CachingStrategy="RecycleElement"
         BackgroundColor="Transparent"
+        CachingStrategy="RecycleElement"
         GroupDisplayBinding="{Binding Key}"
         HasUnevenRows="True"
         IsGroupingEnabled="True"
@@ -23,12 +23,17 @@
         ItemsSource="{Binding CoffeeGroups}"
         RefreshCommand="{Binding RefreshCommand}"
         RefreshControlColor="Red"
+        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
         SeparatorVisibility="None">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="model:Coffee">
                 <ViewCell>
                     <ViewCell.ContextActions>
-                        <MenuItem Text="Favorite" Clicked="MenuItem_OnClicked"/>
+                        <!--  relative source doesn't work properly on menu item  -->
+                        <MenuItem
+                            Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}"
+                            CommandParameter="{Binding .}"
+                            Text="Mark As Favorite" />
                     </ViewCell.ContextActions>
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
@@ -47,6 +52,10 @@
                                         Text="{Binding Roaster}"
                                         VerticalOptions="Center" />
                                 </StackLayout>
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CoffeeEquipmentViewModel}}, Path=FavoriteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Favorite" />
                             </StackLayout>
                         </Frame>
 

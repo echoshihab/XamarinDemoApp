@@ -18,6 +18,7 @@ namespace XamarinDemoApp.ViewModels
         public ObservableRangeCollection<Coffee> Coffee { get; set; }
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; }
         public AsyncCommand RefreshCommand { get; }
+        public AsyncCommand<Coffee> FavoriteCommand { get; }
 
         private Coffee selectedCoffee;
         private Coffee previousCoffee;
@@ -57,6 +58,9 @@ namespace XamarinDemoApp.ViewModels
             CoffeeGroups.Add(new Grouping<string, Coffee>("Tetley", Coffee.Where(c => c.Roaster == "Tetley")));
             CoffeeGroups.Add(new Grouping<string, Coffee>("Starbucks", Coffee.Where(c => c.Roaster == "Starbucks")));
             var _count = CoffeeGroups.Count;
+
+            RefreshCommand = new AsyncCommand(Refresh);
+            FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
         }
 
 
@@ -65,6 +69,14 @@ namespace XamarinDemoApp.ViewModels
             IsBusy = true;
             await Task.Delay(2000);
             IsBusy = false;
+        }
+
+        async Task Favorite(Coffee coffee)
+        {
+            if (coffee == null)
+                return;
+            await Application.Current.MainPage.DisplayAlert("Marked as Favorite", coffee.Name, "OK");
+            
         }
     }
 }

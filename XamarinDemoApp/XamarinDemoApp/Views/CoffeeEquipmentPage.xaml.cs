@@ -24,29 +24,8 @@ namespace XamarinDemoApp.Views
         }
 
 
-        private async void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var coffee = ((ListView) sender).SelectedItem as Coffee;
-            if (coffee == null)
-                return;
 
-            await DisplayAlert("Coffee Selected", coffee.Name, "Ok");
-        }
 
-        private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-           ((ListView)sender).SelectedItem = null;
-        }
-
-        private async void MenuItem_OnClicked(object sender, EventArgs e)
-        {
-            var coffee = ((MenuItem) sender).BindingContext as Coffee;
-            
-            if (coffee == null)
-                return;
-
-            await DisplayAlert("Coffee Favorited", coffee.Name, "Ok");
-
-        }
+        
     }
 }
