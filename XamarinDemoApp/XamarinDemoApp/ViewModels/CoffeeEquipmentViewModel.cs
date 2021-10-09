@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using Xamarin.Forms;
 using XamarinDemoApp.Models;
 using Command = Xamarin.Forms.Command;
 
@@ -16,6 +18,28 @@ namespace XamarinDemoApp.ViewModels
         public ObservableRangeCollection<Coffee> Coffee { get; set; }
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; }
         public AsyncCommand RefreshCommand { get; }
+
+        private Coffee selectedCoffee;
+        private Coffee previousCoffee;
+
+        public Coffee SelectedCoffee
+        {
+            get => this.selectedCoffee;
+            set
+            {
+                if (value != null)
+                {
+                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
+                    previousCoffee = value;
+                    value = null;
+
+                }
+
+                selectedCoffee = value;
+                OnPropertyChanged();
+            }
+
+        }
         public CoffeeEquipmentViewModel()
         {
             Title = "Coffee Equipment";

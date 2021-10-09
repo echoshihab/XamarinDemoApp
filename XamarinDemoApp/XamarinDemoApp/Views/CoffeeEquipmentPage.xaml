@@ -12,8 +12,7 @@
         <viewModels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
     <ListView
-        ItemSelected="ListView_OnItemSelected"
-        ItemTapped="ListView_OnItemTapped"
+        SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
         CachingStrategy="RecycleElement"
         BackgroundColor="Transparent"
         GroupDisplayBinding="{Binding Key}"
