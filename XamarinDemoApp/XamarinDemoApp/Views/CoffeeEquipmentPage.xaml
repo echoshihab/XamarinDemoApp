@@ -34,6 +34,7 @@
                             Command="{Binding Source={x:Reference CoffeePage}, Path=BindingContext.FavoriteCommand}"
                             CommandParameter="{Binding .}"
                             Text="Mark As Favorite" />
+                        <MenuItem IsDestructive="True" Text="Delete" />
                     </ViewCell.ContextActions>
                     <Grid Padding="10">
                         <Frame CornerRadius="20" HasShadow="True">
