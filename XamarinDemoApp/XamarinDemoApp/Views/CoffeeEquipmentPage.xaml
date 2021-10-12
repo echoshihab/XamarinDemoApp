@@ -6,12 +6,18 @@
     xmlns:model="clr-namespace:XamarinDemoApp.Models;assembly=XamarinDemoApp"
     xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
     xmlns:viewModels="clr-namespace:XamarinDemoApp.ViewModels;assembly=XamarinDemoApp"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="CoffeePage"
     x:DataType="viewModels:CoffeeEquipmentViewModel"
     BackgroundColor="white">
     <ContentPage.BindingContext>
         <viewModels:CoffeeEquipmentViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ListView
         BackgroundColor="Transparent"
         CachingStrategy="RecycleElement"
@@ -25,6 +31,13 @@
         RefreshControlColor="Red"
         SelectedItem="{Binding SelectedCoffee, Mode=TwoWay}"
         SeparatorVisibility="None">
+
+        <ListView.Behaviors>
+            <xct:EventToCommandBehavior
+                Command="{Binding SelectedCommand}"
+                EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"
+                EventName="ItemSelected" />
+        </ListView.Behaviors>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="model:Coffee">
                 <ViewCell>

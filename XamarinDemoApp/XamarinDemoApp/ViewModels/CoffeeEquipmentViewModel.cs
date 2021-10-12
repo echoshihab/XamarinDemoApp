@@ -19,6 +19,7 @@ namespace XamarinDemoApp.ViewModels
         public ObservableRangeCollection<Grouping<string, Coffee>> CoffeeGroups { get; }
         public AsyncCommand RefreshCommand { get; }
         public AsyncCommand<Coffee> FavoriteCommand { get; }
+        public AsyncCommand<object> SelectedCommand { get; }
         public Command LoadMoreCommand { get; }
         public Command DelayLoadMoreCommand { get; }
         public Command ClearCommand { get; }
@@ -29,20 +30,19 @@ namespace XamarinDemoApp.ViewModels
         public Coffee SelectedCoffee
         {
             get => this.selectedCoffee;
-            set
-            {
-                if (value != null)
-                {
-                    Application.Current.MainPage.DisplayAlert("Selected", value.Name, "OK");
-                    previousCoffee = value;
-                    value = null;
+            set => SetProperty(ref selectedCoffee, value);
 
-                }
+        }
 
-                selectedCoffee = value;
-                OnPropertyChanged();
-            }
+        async Task Selected(object args)
+        {
+            var coffee = args as Coffee;
+            if (coffee == null)
+                return;
 
+            SelectedCoffee = null;
+
+            await Application.Current.MainPage.DisplayAlert("Selected", coffee.Name, "OK");
         }
         public CoffeeEquipmentViewModel()
         {
@@ -55,6 +55,7 @@ namespace XamarinDemoApp.ViewModels
 
             RefreshCommand = new AsyncCommand(Refresh);
             FavoriteCommand = new AsyncCommand<Coffee>(Favorite);
+            SelectedCommand = new AsyncCommand<object>(Selected);
             LoadMoreCommand = new Command(LoadMore);
             ClearCommand = new Command(Clear);
             DelayLoadMoreCommand = new Command(DelayLoadMore);
