@@ -26,7 +26,7 @@ namespace XamarinDemoApp.Services
             await _db.CreateTableAsync<DbCoffee>();
         }
 
-        public static async Task AddCoffee(string name, string, string roaster)
+        public static async Task AddCoffee(string name, string roaster)
         {
             await Init();
             var image = "https://www.yesplz.coffee/app/uploads/2020/11/emptybag-min.png";

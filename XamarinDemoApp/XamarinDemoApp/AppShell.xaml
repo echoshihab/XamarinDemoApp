@@ -91,7 +91,9 @@
     <FlyoutItem Title="EquipmentCV">
         <ShellContent ContentTemplate="{DataTemplate local:EquipmentCollectionPage}" Route="EquipmentCollectionPage" />
     </FlyoutItem>
-
+    <FlyoutItem Title="CoffeeDB">
+        <ShellContent ContentTemplate="{DataTemplate local:CoffeeEquipmentDbPage}" Route="CoffeeDbPage" />
+    </FlyoutItem>
 
 
 </Shell>

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinDemoApp.Views.CoffeeEquipmentDbPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:XamarinDemoApp.Models;assembly=XamarinDemoApp"
+    xmlns:mvvm="clr-namespace:MvvmHelpers;assembly=MvvmHelpers"
+    xmlns:viewModels="clr-namespace:XamarinDemoApp.ViewModels;assembly=XamarinDemoApp"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Name="MyCoffeeDbPage"
+    x:DataType="viewModels:CoffeeEquipmentDbViewModel"
+    BackgroundColor="white">
+    <ContentPage.BindingContext>
+        <viewModels:CoffeeEquipmentDbViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddCommand}" Text="Add" />
+    </ContentPage.ToolbarItems>
+
+    <ListView
+        BackgroundColor="Transparent"
+        CachingStrategy="RecycleElement"
+        HasUnevenRows="True"
+        IsPullToRefreshEnabled="True"
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        ItemsSource="{Binding Coffee}"
+        RefreshCommand="{Binding RefreshCommand}"
+        RefreshControlColor="Red"
+        SelectionMode="None"
+        SeparatorVisibility="None">
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="model:DbCoffee">
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <!--  relative source doesn't work properly on menu item  -->
+                        <MenuItem
+                            Command="{Binding Source={x:Reference MyCoffeeDbPage}, Path=BindingContext.RemoveCommand}"
+                            CommandParameter="{Binding .}"
+                            IsDestructive="True"
+                            Text="Delete" />
+                    </ViewCell.ContextActions>
+                    <Grid Padding="10">
+                        <Frame CornerRadius="20" HasShadow="True">
+                            <StackLayout Orientation="Horizontal">
+                                <Image
+                                    HeightRequest="66"
+                                    Source="{Binding Image}"
+                                    WidthRequest="66" />
+                                <StackLayout>
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Name}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Large"
+                                        Text="{Binding Roaster}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        FontSize="Small"
+                                        Text="{Binding Id}"
+                                        VerticalOptions="Center" />
+                                </StackLayout>
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CoffeeEquipmentViewModel}}, Path=FavoriteCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Favorite" />
+                            </StackLayout>
+                        </Frame>
+
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+</ContentPage>
